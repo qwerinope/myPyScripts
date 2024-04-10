@@ -1,7 +1,7 @@
 #!/bin/env python
 import requests, img2pdf, argparse, os, re
 
-parser = argparse.ArgumentParser(description='Download books from Noordhoff.', epilog="https://gist.github.com/qweri0p/04519b28504af179287edc6970935cc7")
+parser = argparse.ArgumentParser(description='Download books from Noordhoff.', epilog="https://github.com/qweri0p/myPyScripts")
 parser.add_argument('-v', '--verbose', help="display individual images downloaded", action='store_true', default=False)
 parser.add_argument('-o', '--output', help="rename the pdf to specified name.", default="output", action='store')
 parser.add_argument('link', metavar="link", help="link to the image source.", nargs=1)

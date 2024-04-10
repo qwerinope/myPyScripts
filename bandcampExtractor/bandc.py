@@ -1,7 +1,12 @@
 #!/bin/env python
-import zipfile, os, sys, argparse
+import zipfile, os, argparse
+try: 
+    import music_tag
+except ImportError:
+    print("Please install the 'music-tag' python package. Check the README for more details.")
+    exit()
 
-parser = argparse.ArgumentParser(description='Unzip zipfiles downloaded from Bandcamp.com into directories labelled by album.', epilog="https://gist.github.com/qweri0p/2830c8c1f052e371b6fd58504111be48")
+parser = argparse.ArgumentParser(description='Unzip zipfiles downloaded from Bandcamp.com into directories labelled by album.', epilog="https://github.com/qweri0p/myPyScripts")
 parser.add_argument('-v', '--verbose', help="Display individual items being extracted.", action='store_true', default=False)
 parser.add_argument('-q', '--quiet', help="Do not display any information at all.", action='store_true', default=False)
 parser.add_argument('-c', '--clean', help="Removes zipfile once completed", action='store_true', default=False)
@@ -9,26 +14,13 @@ parser.add_argument('-d', '--dir', help="Runs the program in the specified direc
 parser.add_argument('zips', metavar="zipfiles", help="Only unzips specified zipfiles.", nargs='*')
 args = parser.parse_args()
 
-def installdeps():
-    try:
-        os.system(f"{sys.executable} -m pip install --user music-tag")
-        print("Dependency installed. Please re-run the program.")
-        exit()
-    except:
-        print("Please install pip or the python package 'music-tag'.")
-        exit()
-
 files = os.listdir(args.dir)
+albums = []
 
-try:
-    import music_tag
-except ImportError:
-    installdeps()
 if args.zips:
     for i in args.zips:
         albums.append(i.split(".zip")[0])
 else:
-    albums:str = []
     for i in files:
         if i.endswith(".zip"):
             albums.append(i.split(".zip")[0])
