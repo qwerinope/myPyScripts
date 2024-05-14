@@ -5,7 +5,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Convert all files with a certain extension to a different extension', epilog='https://github.com/qweri0p/myPyScripts')
 parser.add_argument('-q', '--quiet', help="Do not write anything to stdout.", action='store_true', default=False)
-parser.add_argument('-c', '--clean', help="Removes zipfile once completed", action='store_true', default=False)
+parser.add_argument('-c', '--clean', help="Remove input file when done converting.", action='store_true', default=False)
 parser.add_argument('-d', '--dir', help="Runs the program in the specified directory.", default=".")
 parser.add_argument('input', type=str, help="Files you wish to turn into different formats.")
 parser.add_argument('output', type=str, help="Turn all files into this type of file")

@@ -16,6 +16,9 @@ def main():
     # That should work fine
     bookID = re.search("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/[0-9]+", args.link[0])
     #it works :)
+    if not bookID:
+        print("Cannot find data required from provided url. Make sure you follow the instructions.")
+        exit()
     if args.verbose:
         print("Selected book Identifier: "+bookID.group()+".")
     os.mkdir(dirname)
