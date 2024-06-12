@@ -29,7 +29,7 @@ for file in files:
 
     output = file[:-len(currentFileExtension):]+futureFileExtension
 
-    cmd = ['ffmpeg', '-hide_banner', '-i', file, *extra_arguments.split(), output]
+    cmd = ['ffmpeg', '-i', file, *extra_arguments.split(), output]
     run = subprocess.run(cmd)
     if run.returncode == 0:
         if not args.quiet:
