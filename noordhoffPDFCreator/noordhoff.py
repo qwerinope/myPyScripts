@@ -12,9 +12,9 @@ def main():
     # example link: https://cdp.contentdelivery.nu/f5c5e97e-5f64-4da4-a3dd-d99154e8338d/20221004094415/extract/assets/img/layout/1.jpg
     # I need to extract: f5c5e97e-5f64-4da4-a3dd-d99154e8338d/20221004094415
     # REGEX TIME!!! YAAAAAY!!
-    # [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/[0-9]+
+    # [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/[0-9]+
     # That should work fine
-    bookID = re.search("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/[0-9]+", args.link[0])
+    bookID = re.search("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/[0-9]+", args.link[0])
     #it works :)
     if not bookID:
         print("Cannot find data required from provided url. Make sure you follow the instructions.")
