@@ -1,6 +1,6 @@
 # cvfiles.py
 
-Iterates all files in a given directory and utilizes [ffmpeg](https://ffmpeg.org) to transform all files into a different file format.
+Iterates through all files in a given directory and utilizes [ffmpeg](https://ffmpeg.org) to transform all files into a different file format.
 
 You'll need no additional libraries, every part of this script uses python3 built-ins.
 You will however need ffmpeg. Make sure ffmpeg is in `$PATH`. If you're not sure, run `ffmpeg` from a new shell/terminal. If it responds `command not found` you have either not installed it properly or at all.
@@ -13,6 +13,7 @@ You will however need ffmpeg. Make sure ffmpeg is in `$PATH`. If you're not sure
 * `-q`/`--quiet` - Makes the script print nothing to the standard output.
 * `-c`/`--clean` - After converting, makes it deletes the original file from disk.
 * `-d`/`--dir` - Specify the directory with files to convert. It will run in that directory.
+* `-v`/`--verbose` - Print extra info about the file that's currently being converted.
 
 # Examples
 ```sh
@@ -33,4 +34,6 @@ $ python cvfiles.py -c -d 1992 flac mp3
 # Successfully converted "1992/14 1991 (Bonus).flac" into "1992/14 1991 (Bonus).mp3".
 ```
 
-In this example I change all flac music files from the album [1992 by CMD094](https://cmd094music.bandcamp.com/album/1992) into 320k bitrate mp3s.
+In this example I change all flac music files from the album ['1992' by 'CMD094'](https://cmd094music.bandcamp.com/album/1992) into 320k bitrate mp3s.
+
+When converting mp3 files, it will force the bitrate to a constant 320kbit, the maximum quality for mp3s.
