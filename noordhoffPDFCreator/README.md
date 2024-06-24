@@ -29,3 +29,10 @@ There are 2 images below to help you.
 ![Open the developer tools](help1.png)  
 *Copy the required data*  
 ![Copy the required data](help2.png)
+
+# noordhoff_json.py
+For mass downloading files.
+
+Quick and dirty modification of `noordhoff.py` to automate it.
+
+It requires a file called `noordhoff.json`. There's an example [here](noordhoff.json). If you're using this program, you should be able to figure out the rest.
