@@ -1,0 +1,22 @@
+pkgname=qweriop-python-scripts
+pkgver=1
+pkgrel=1
+pkgdesc="Several, random, (maybe) useful python scripts."
+arch=('any')
+url="https://github.com/qweri0p/myPyScripts"
+licence=('MIT')
+depends=('python')
+optdepends=(
+	'python-music-tag: Required for "bandc"'
+	'ffmpeg: Required for "cvfiles"'
+	'img2pdf: Required for "noordhoffdl"'
+)
+source=($pkgname::'git+https://github.com/qweri0p/myPyScripts')
+sha256sums=('SKIP')
+
+package() {
+	cd "$srcdir/$pkgname"
+	install -Dm755 "bandcampExtractor/bandc.py" "$pkgdir/usr/bin/bandc"
+	install -Dm755 "massFileConverter/cvfiles.py" "$pkgdir/usr/bin/cvfiles"
+	install -Dm755 "noordhoffPDFCreator/noordhoff.py" "$pkgdir/usr/bin/noordhoffdl"
+}
