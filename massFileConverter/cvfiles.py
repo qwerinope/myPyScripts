@@ -1,7 +1,6 @@
 #!/bin/env python
-import subprocess
+import subprocess, shutil, argparse
 from pathlib import Path
-import argparse
 
 parser = argparse.ArgumentParser(description='Convert all files with a certain extension to a different extension', epilog='https://github.com/qweri0p/myPyScripts')
 parser.add_argument('-q', '--quiet', help="Do not write anything to stdout.", action='store_true', default=False)
@@ -12,6 +11,10 @@ parser.add_argument('input', type=str, help="Files you wish to turn into differe
 parser.add_argument('output', type=str, help="Turn all files into this type of file")
 
 args = parser.parse_args()
+
+if not shutil.which("ffmpeg"):
+    print("Please install 'ffmpeg'.")
+    exit(1)
 
 filepath = Path(args.dir)
 files = sorted([str(file) for file in filepath.iterdir() if file.is_file()])
