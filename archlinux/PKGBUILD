@@ -1,15 +1,19 @@
 pkgname=qweriop-python-scripts
 pkgver=1
 pkgrel=1
-pkgdesc="Several, random, (maybe) useful python scripts."
+pkgdesc="Several, random, (maybe) useful cli scripts written in python"
 arch=('any')
 url="https://github.com/qweri0p/myPyScripts"
 licence=('MIT')
 depends=('python')
+makedepends=(
+	'git'
+)
 optdepends=(
 	'python-music-tag: Required for "bandc"'
 	'ffmpeg: Required for "cvfiles"'
 	'img2pdf: Required for "noordhoffdl"'
+	'python-requests: Required for "noordhoffdl"'
 )
 source=($pkgname::'git+https://github.com/qweri0p/myPyScripts')
 sha256sums=('SKIP')
