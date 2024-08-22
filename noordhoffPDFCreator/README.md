@@ -1,4 +1,7 @@
 # noordhoff.py
+
+# THIS PROGRAM IS CURRENTLY BROKEN!! I WILL BE FIXING IT SOON
+
 Creates PDF files from jpgs downloaded from Noordhoff.
 
 Noordhoff is a dutch company that creates school books. They require you to use a terrible javascript infested website to read their books online. The pages are individually loaded as a simple jpg. Somehow these aren't secured. Child's play.
@@ -21,14 +24,6 @@ For this example I will use `Getal en Ruimte. Wiskunde B. Deel 2`. The link to t
 https://cdp.contentdelivery.nu/f5c5e97e-5f64-4da4-a3dd-d99154e8338d/20221004094415/extract/assets/img/layout/1.jpg
 ```
 The numbers/letters are different depending on which book you're downloading.
-
-There are 2 images below to help you.
-
-## Images
-*Open the developer tools*  
-![Open the developer tools](help1.png)  
-*Copy the required data*  
-![Copy the required data](help2.png)
 
 # noordhoff_json.py
 For mass downloading files.
