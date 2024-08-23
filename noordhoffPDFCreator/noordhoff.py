@@ -1,80 +1,139 @@
 #!/bin/env python
-import requests, img2pdf, argparse, os, re, shutil
+# Noordhoff now loads images from PDFs. Each chapter is split into multiple PDFs.
+# Im gonna see if theres a simple file with references to all pdf blobs.
+# If there is, than i just iterate over all PDFs and download them.
+# Maybe give the user the option to not merge all files into one.
 
-parser = argparse.ArgumentParser(description='Download books from Noordhoff.', epilog="https://github.com/qweri0p/myPyScripts")
-parser.add_argument('-v', '--verbose', help="display individual images downloaded", action='store_true', default=False)
-parser.add_argument('-o', '--output', help="rename the pdf to specified name.", default="output", action='store')
-parser.add_argument('link', metavar="link", help="link to the image source.", nargs=1)
-args = parser.parse_args()
+# The PDFs are still not secured. Anyone with the correct URL can access them.
+# The format is the following: https://pdfsplitter.blob.core.windows.net/pdf/production/split-books/{UUID}_{PAGESTART}_{PAGEEND}.pdf
+# An example is https://pdfsplitter.blob.core.windows.net/pdf/production/split-books/6fe3a785-4b5b-41d8-a167-f737d4e3c647_1_8.pdf 
+# Here the UUID (v4 ofc) is "6fe3a785-4b5b-41d8-a167-f737d4e3c64"
+# The first page of the PDF is page 1, and the last page is page 8
+# The UUID is constant across an ebook
+# For PDFs consisting of one page, the first and last page are identical
+# Example: https://pdfsplitter.blob.core.windows.net/pdf/production/split-books/6fe3a785-4b5b-41d8-a167-f737d4e3c647_51_51.pdf
 
-def main():
-    # example link: https://cdp.contentdelivery.nu/f5c5e97e-5f64-4da4-a3dd-d99154e8338d/20221004094415/extract/assets/img/layout/1.jpg
-    # I need to extract: f5c5e97e-5f64-4da4-a3dd-d99154e8338d/20221004094415
-    # REGEX TIME!!! YAAAAAY!!
-    # [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/[0-9]+
-    # That should work fine
-    try:
-        bookID = re.search("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/[0-9]+", args.link[0])
-        dirname = re.search("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", args.link[0]).group()
-    except:
-        print("You provided an incorrect link. Please check the readme for instructions.")
+# There does not appear to be an easy json object with references to all PDFs, bummer
+# I'll have to brute-force it.
+# This new website does have a positive: The UUID is the only thing we need, and it can easily be found in the URL,
+# The previous iteration of the website had it hidden in the network tab of the devtools, along with a unix timestamp
+# It's a lot more user friendly now to use my tool LOL
+
+# The way i will do this is the following:
+# I know the first page is always page 1 (which is wrong and dumb, indexing starts at 0 and always should)
+# Start at page 1, then request: {UUID}_1_1.pdf
+# If it returns 404, try: {UUID}_1_2.pdf
+# and repeat until found
+# If a pdf is found within a certain amount, download it, then repeat with the the last page it downloaded + 1
+# If no pdf is found, stop running the download function, and move onto the PDF merging function.
+
+# This should work 99% of the time. The 1% of times it doesn't is when a PDF file contains more pages than hardcoded.
+# The hardcoded value should be large enough to prevent it stopping early, but not too large to make it realize it's done really late.
+# I have patience, and so a value of 100 for pageCheckRange should be plenty.
+
+import argparse
+import re
+from pathlib import Path
+import shutil
+import requests
+from pypdf import PdfWriter
+
+BASEURL = "https://pdfsplitter.blob.core.windows.net/pdf/production/split-books/"
+PAGECHECKRANGE = 100
+UUIDPATTERN = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+
+def doParser():
+    parser = argparse.ArgumentParser(description='Download books from Noordhoff as PDF', epilog='https://github.com/qweri0p/myPyScripts')
+    parser.add_argument('-v', '--verbose', help='Display each request.', action='store_true', default=False)
+    parser.add_argument('-o', '--output', help='Rename PDF after creation to specified name.', action='store', default='output')
+    parser.add_argument('-k', '--keep', help='Keep partial PDF files.', action='store_true', default=False)
+    parser.add_argument('link', metavar='link', help='URL of the book.', nargs=1)
+    args = parser.parse_args()
+    return args
+
+def main(url:str, output:str, verbose:bool, keep=False):
+    bookId = getBookUUID(url, verbose)
+    dirSetup(bookId, verbose)
+    files = getFiles(bookId, verbose)
+    mergePdfs(files, output, verbose)
+    if not keep:
+        deletefiles(bookId, verbose)
+
+def getBookUUID(bookURL:str, verbose:bool) -> str:
+    regex = re.findall(UUIDPATTERN, bookURL)
+    if len(regex) == 0:
+        print("Incorrect link entered, please try again.")
         exit(1)
-    #it works :)
-    if not bookID:
-        print("Cannot find data required from provided url. Make sure you follow the instructions.")
-        exit(1)
+    elif len(regex) == 2:
+        uuid = regex[1]
+    else:
+        uuid = regex[0]
 
-    if args.verbose:
-        print("Selected book Identifier: "+bookID.group()+".")
+    if verbose:
+        print(f'Extracted {uuid} from provided URL')
 
-    try:
-        os.mkdir(dirname)
-    except:
-        shutil.rmtree(dirname)
-        os.mkdir(dirname)
+    return uuid
 
-    if args.verbose:
-        print("Created '"+dirname+"' directory.")
+def dirSetup(uuid:str, verbose:bool):
+    saveDir = Path(uuid)
+    saveDir.mkdir(exist_ok=True)
+    if verbose:
+        print(f'Succesfully Created directory "{uuid}"')
 
-    fulllink = "https://cdp.contentdelivery.nu/"+bookID.group()+"/extract/assets/img/layout/"
-    print("Downloading images from "+fulllink+".")
-    running = True
-    index = 1
-    while running:
-        r = requests.get(fulllink + str(index) + ".jpg")
-        if r.status_code == 200:
-            if args.verbose:
-                print("Downloading "+r.url+".")
-            with open(dirname+"/"+str(index)+".jpg", 'wb') as f:
-                f.write(r.content)
+def getFiles(uuid:str, verbose:bool) -> list[str]:
+    downloading = True
+    pagestart = 1
+    pageend = 1
+    checkprogress = 0
+    files = [] # This files.array makes merging the PDFs a lot easier
+    while downloading:
+
+        if verbose:
+            print(f'Attempting download for pages {pagestart} - {pageend}')
+
+        r = requests.get(BASEURL+uuid+f'_{pagestart}_{pageend}.pdf')
+
+        if r.status_code != 200:
+            pageend += 1
+            checkprogress += 1
         else:
-            running = False
-        index+=1
-    print("Downloaded every page.")
-    print("Creating PDF.")
-    imgs = []
-    imgpaths = []
-    for fname in os.listdir(dirname):
-        if not fname.endswith(".jpg"):
-            continue
-        path = os.path.join(dirname, fname)
-        if os.path.isdir(path):
-            continue
-        imgs.append(fname)
+            if verbose:
+                print(f'PDF for page {pagestart}-{pageend} found and downloaded')
+            
+            with open(f'{uuid}/{pagestart}.pdf', 'wb') as f:
+                f.write(r.content)
+                f.close()
 
-    # THIS IS TERRIBLE!!!
-    # NEVER CHANGE THIS
-    # this is to turn the string representing each image into an integer
-    # so that the sort function correctly sorts it and then turn it back into a string
-    # thank you so much chatgpt i could never have written this abomination myself
-    imgs = sorted([int(x[:-4]) for x in imgs]) 
-    imgpaths = [dirname+"/"+str(x)+".jpg" for x in imgs]
-    # 🤮🤮🤮🤮
+            files.append(f'{uuid}/{pagestart}.pdf')
 
-    with open(args.output+".pdf","wb") as f:
-        f.write(img2pdf.convert(imgpaths))
-    print("Done.")
-    shutil.rmtree(dirname)
+            pagestart = pageend + 1
+            pageend += 1
+            checkprogress = 0
+        
+        # This part stops the loop when it hasn't downloaded a file in a while.
+        if checkprogress == PAGECHECKRANGE:
+            downloading = False
+            if verbose:
+                print(f'Pages beyond page {pageend} not found, continuing to merge PDFs.')
+
+    return files
+
+def mergePdfs(files:list[str], output:str, verbose:bool):
+    merger = PdfWriter()
+    for file in files:
+        merger.append(file)
+
+    merger.write(f'{output}.pdf')
+    merger.close()
+    
+    if verbose:
+        print(f'Written complete PDF file to "{output}.pdf"')
+
+def deletefiles(uuid:str, verbose:bool):
+    shutil.rmtree(uuid)
+    if verbose:
+        print('Deleted temporary files')
 
 if __name__ == "__main__":
-    main()
+    args = doParser()
+    main(args.link[0], args.output, args.verbose, args.keep)

@@ -1,33 +1,26 @@
 # noordhoff.py
 
-# THIS PROGRAM IS CURRENTLY BROKEN!! I WILL BE FIXING IT SOON
+Creates PDF files from Noordhoff ebooks.
 
-Creates PDF files from jpgs downloaded from Noordhoff.
+Noordhoff is a dutch company that creates school books. They require you to use a terrible javascript infested website to read their books online. I don't want to do that, so I created a script that downloads each page and then merges them together.
 
-Noordhoff is a dutch company that creates school books. They require you to use a terrible javascript infested website to read their books online. The pages are individually loaded as a simple jpg. Somehow these aren't secured. Child's play.
+You'll need the ['pypdf'](https://github.com/py-pdf/pypdf) and the ['requests'](https://github.com/psf/requests) libraries. Use the nix-shell environment included in the repo, a [python virtual environment](https://docs.python.org/3/library/venv.html) or the packages provided by your distro.
 
-You'll need the ['img2pdf'](https://github.com/josch/img2pdf) and the ['requests'](https://github.com/psf/requests) libraries. Use the nix-shell environment included in the repo, a [python virtual environment](https://docs.python.org/3/library/venv.html) or the packages provided by your distro.
-
-You will need to parse a single argument into the program. This `link` has to be a link to one of page's jpgs.
+You will need to parse a single argument into the program. This `link` is the URL associated with the ebook.
 
 ## Optional Arguments
-* `-v`/`--verbose` - Lists each image being downloaded individually.
+* `-v`/`--verbose` - Gives a lot of information about the program state.
 * `-o`/`--output` - Renames the outputted PDF to the given name.
+* `-k`/`--keep` - Do not delete temporary PDF files.
 
 ## How to get this link?
-1. You will need to have access to the online book. There might be a way around, but I'm too lazy to figure that out lol.
-For this example I will use `Getal en Ruimte. Wiskunde B. Deel 2`. The link to that one is ```https://apps.noordhoff.nl/se/content/book/f43a32c3-0718-465c-a6ef-5b29c38c137c/ebooks/fccac6af-9e6a-4155-9f13-d9ed7501371d```.
-2. Once on the webpage, open the developer tools. This can be done by pressing F12 or function+F12 on your keyboard. It might look different on your screen but that should be no problem. Go to the `Network` tab of the window that pops up. If you don't see the tab, click on the `>>` and select `Network`.
-3. You should be able to see some .jpg files in the developer tools. Right click one of them, which one doesn't matter. Hover over `Copy`. Then select `Copy link address`. This is the link you wanna parse into the program.
-4. The link should look something like this:
+Go to the ebook, then copy the long code (the URL) on the top of your window. The code should look something like this:
 ```
-https://cdp.contentdelivery.nu/f5c5e97e-5f64-4da4-a3dd-d99154e8338d/20221004094415/extract/assets/img/layout/1.jpg
+https://apps.noordhoff.nl/se/content/book/4b9bf1e6-34c6-4eae-9d64-af4fe7fd3f6a/ebook/caa64911-13b3-4527-943d-5cf07af31d92
 ```
-The numbers/letters are different depending on which book you're downloading.
-
 # noordhoff_json.py
 For mass downloading files.
 
-Quick and dirty modification of `noordhoff.py` to automate it.
+It requires `noordhoff.py` for use as a library.
 
-It requires a file called `noordhoff.json`. There's an example [here](noordhoff.json). If you're using this program, you should be able to figure out the rest.
+It also requires a file called `noordhoff.json`. There's an example [here](noordhoff.json). If you're using this program, you should be able to figure out the rest.

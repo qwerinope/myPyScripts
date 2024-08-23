@@ -1,6 +1,10 @@
 [
 	{
-		"link": "https://cdp.contentdelivery.nu/f5c5e97e-5f64-4da4-a3dd-d99154e8338d/20221004094415/extract/assets/img/layout/1.jpg",
-		"output": "leerboek2"
+		"link": "https://apps.noordhoff.nl/se/content/book/d97a478f-290e-48cb-a82c-13ddd52bdd32/ebook/6fe3a785-4b5b-41d8-a167-f737d4e3c647",
+		"output": "nectarv6flex"
+	},
+	{
+		"link": "https://apps.noordhoff.nl/se/content/book/d97a478f-290e-48cb-a82c-13ddd52bdd32/ebook/4e6c7c1b-5c28-446d-bfe8-c2000c69cb64",
+		"output": "nectarv6uitwerkingen"
 	}
 ]
