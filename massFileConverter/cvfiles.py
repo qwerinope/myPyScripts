@@ -44,4 +44,4 @@ for file in files:
         if args.clean:
             Path(file).unlink()
     else:
-        exit()
+        raise OSError("File conversion failed, exiting...")
