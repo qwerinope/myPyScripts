@@ -1,0 +1,10 @@
+# noordhoffdl
+pypdf
+requests
+
+#noordhoffdl-qt
+PySide6
+pyinstaller
+
+#bandc
+music-tag

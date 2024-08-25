@@ -24,3 +24,8 @@ For mass downloading files.
 It requires `noordhoff.py` for use as a library.
 
 It also requires a file called `noordhoff.json`. There's an example [here](noordhoff.json). If you're using this program, you should be able to figure out the rest.
+
+# noordhoff-qt.py
+QT6 GUI made using PySide6. Use pyinstaller to create a standalone executable.
+
+Input the book URL in the top input, and select the download location with the 'Save as' button. Then press 'Download' and wait. 
