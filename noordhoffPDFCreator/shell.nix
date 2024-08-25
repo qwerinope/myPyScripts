@@ -5,6 +5,6 @@ in
 
 pkgs.mkShell {
   packages = with pkgs; [
-    (python3.withPackages(ps: with ps; [ requests pypdf ]))
+    (python3.withPackages(ps: with ps; [ requests pymupdf ]))
   ];
 }

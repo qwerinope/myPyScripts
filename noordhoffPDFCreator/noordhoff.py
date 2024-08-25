@@ -36,7 +36,7 @@ import re
 from pathlib import Path
 import shutil
 import requests
-from pypdf import PdfWriter
+import pymupdf
 
 BASEURL = "https://pdfsplitter.blob.core.windows.net/pdf/production/split-books/"
 PAGECHECKRANGE = 100
@@ -119,16 +119,19 @@ def getFiles(uuid:str, verbose:bool) -> list[str]:
     return files
 
 def mergePdfs(files:list[str], output:str, verbose:bool):
-    merger = PdfWriter()
+    outputfile = pymupdf.open()
+    
     for file in files:
-        merger.append(file)
+        pdffile = pymupdf.open(file)
+        outputfile.insert_pdf(pdffile)
+        pdffile.close()
 
-    merger.write(f'{output}.pdf')
-    merger.close()
+    outputfile.save(f'{output}.pdf')
+    outputfile.close()
     
     if verbose:
         print(f'Written complete PDF file to "{output}.pdf"')
-
+        
 def deletefiles(uuid:str, verbose:bool):
     shutil.rmtree(uuid)
     if verbose:

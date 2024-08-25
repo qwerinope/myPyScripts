@@ -4,7 +4,7 @@ Creates PDF files from Noordhoff ebooks.
 
 Noordhoff is a dutch company that creates school books. They require you to use a terrible javascript infested website to read their books online. I don't want to do that, so I created a script that downloads each page and then merges them together.
 
-You'll need the ['pypdf'](https://github.com/py-pdf/pypdf) and the ['requests'](https://github.com/psf/requests) libraries. Use the nix-shell environment included in the repo, a [python virtual environment](https://docs.python.org/3/library/venv.html) or the packages provided by your distro.
+You'll need the ['pymupdf'](https://github.com/pymupdf/PyMuPDF) and the ['requests'](https://github.com/psf/requests) libraries. Use the nix-shell environment included in the repo, a [python virtual environment](https://docs.python.org/3/library/venv.html) or the packages provided by your distro.
 
 You will need to parse a single argument into the program. This `link` is the URL associated with the ebook.
 

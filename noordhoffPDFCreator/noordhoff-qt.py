@@ -92,7 +92,7 @@ class mainWindow(QMainWindow):
         path = response[0]
         if path == '':
             return
-        path.removesuffix('.pdf')
+        path = path.removesuffix('.pdf')
         self.savePath=path
         self.saveLocation.setText(path + '.pdf')
         
@@ -116,6 +116,7 @@ class mainWindow(QMainWindow):
         worker.signals.completed.connect(self.disableGUI)
         worker.signals.started.connect(self.enableGUI)
         pool.start(worker)
+        
             
     def enableGUI(self):
         self.downloadLink.setVisible(False)

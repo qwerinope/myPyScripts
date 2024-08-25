@@ -1,5 +1,5 @@
 # noordhoffdl
-pypdf
+pymupdf
 requests
 
 #noordhoffdl-qt
