@@ -43,7 +43,7 @@ class mainWindow(QMainWindow):
         container.layout().addWidget(self.downloadLink, 0, 0, 1, 1)
         
         self.pasteButton = QPushButton("Paste")
-        self.pasteButton.clicked.connect(self.downloadLink.paste)
+        self.pasteButton.clicked.connect(self.pastething)
         container.layout().addWidget(self.pasteButton, 0, 1, 1, 1)
 
         self.saveLocation = QLineEdit()
@@ -80,6 +80,11 @@ class mainWindow(QMainWindow):
         help_menu.addAction(githubaction)
 
         self.show()
+        
+    def pastething(self):
+        self.downloadLink.clear()
+        self.downloadLink.paste()
+        
         
     def opengithub(self):
         QDesktopServices.openUrl(QUrl("https://github.com/qweri0p/myPyScripts/tree/main/noordhoffPDFCreator"))
