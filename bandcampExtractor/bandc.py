@@ -31,16 +31,21 @@ else:
     for i in files:
         albums.append(i.split(".zip")[0])
 
+if albums == []:
+    print('No zipfiles found', file=sys.stderr)
+    exit(1)
+
 # start actual process
 for i in albums:
+    currentzip = Path(args.dir / i + '.zip')
     try:
-        zip_ref = zipfile.ZipFile(args.dir + "/" + i + ".zip", "r")
+        zip_ref = zipfile.ZipFile(currentzip, "r")
     except zipfile.BadZipFile:
-        print(f'ERROR: Zipfile {i+'.zip'} is corrupt. Please redownload the music from bandcamp', file=sys.stderr)
+        print(f'ERROR: Zipfile \'{currentzip.name}\' is corrupt. Please redownload the music from bandcamp', file=sys.stderr)
         exit(1)
 
     if args.quiet == False:
-        print(f'Extracting: {i+'.zip'}')
+        print(f'Extracting: {currentzip.name}')
 
     # from the name of the zipfile, try to get the name of the album & artist
     # not possible if the user renamed it so there's a fallback
@@ -56,17 +61,18 @@ for i in albums:
     if tempdir.exists():
         shutil.rmtree(tempdir)
     tempdir.mkdir()
+
     zip_ref.extractall(tempdir)
 
     if args.verbose == True:
-        print(f'Extracted: {i+'.zip'}')
+        print(f'Extracted: {currentzip.name}')
 
     zip_ref.close()
 
     if args.clean == True:
-        Path(i+'.zip').unlink()
+        currentzip.unlink()
         if args.verbose == True:
-            print(f'Deleted {i+'.zip'}')
+            print(f'Deleted {currentzip.name}')
 
     finaldir = Path(f'{albumname}')
     if finaldir.exists():
@@ -90,6 +96,9 @@ for i in albums:
 
         if args.verbose == True:
             print(f'Copied \'{file}\' to \'{newfile}\'.')
+
+    if args.quiet == False:
+        print(f'Extracted and renamed all files from \'{currentzip.name}\'')
 
     if args.keep == False:
         shutil.rmtree(tempdir)
