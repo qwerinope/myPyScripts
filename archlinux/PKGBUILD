@@ -1,6 +1,6 @@
 pkgname=qweriop-python-scripts
 pkgver=1
-pkgrel=2
+pkgrel=3
 pkgdesc="Several, random, (maybe) useful cli scripts written in python"
 arch=('any')
 url="https://github.com/qweri0p/myPyScripts"
