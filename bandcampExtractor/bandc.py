@@ -37,7 +37,7 @@ if albums == []:
 
 # start actual process
 for i in albums:
-    currentzip = Path(args.dir / i + '.zip')
+    currentzip = Path(f'{i}.zip')
     try:
         zip_ref = zipfile.ZipFile(currentzip, "r")
     except zipfile.BadZipFile:
@@ -45,7 +45,7 @@ for i in albums:
         exit(1)
 
     if args.quiet == False:
-        print(f'Extracting: {currentzip.name}')
+        print(f'Extracting: \'{currentzip.name}\'')
 
     # from the name of the zipfile, try to get the name of the album & artist
     # not possible if the user renamed it so there's a fallback
@@ -65,16 +65,16 @@ for i in albums:
     zip_ref.extractall(tempdir)
 
     if args.verbose == True:
-        print(f'Extracted: {currentzip.name}')
+        print(f'Extracted: \'{currentzip.name}\'')
 
     zip_ref.close()
 
     if args.clean == True:
         currentzip.unlink()
         if args.verbose == True:
-            print(f'Deleted {currentzip.name}')
+            print(f'Deleted \'{currentzip.name}\'')
 
-    finaldir = Path(f'{albumname}')
+    finaldir = Path(f'{args.dir}/{albumname}')
     if finaldir.exists():
         print(f'ERROR: Cannot create directory \'{albumname}\' as directory already exists', file=sys.stderr)
         if args.keep == False:
@@ -88,7 +88,7 @@ for i in albums:
             tagger = music_tag.load_file(file)
             tracknumber = str(tagger['tracknumber']).zfill(2)
             tracktitle = str(tagger['tracktitle'])
-            newname = f'{tracknumber} {tracktitle}'
+            newname = f'{tracknumber} {tracktitle}{file.suffix}'
             # i have no fucking clue why but STFU PYRIGHT
         else:
             nameelements = file.name.split(' - ')
