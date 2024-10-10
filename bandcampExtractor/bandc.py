@@ -86,7 +86,10 @@ for i in albums:
     for file in tempdir.iterdir():
         if file.suffix in MUSICFILETYPES:
             tagger = music_tag.load_file(file)
-            newname = f'{str(tagger.resolve('tracknumber')).zfill(2)} {tagger.resolve('tracktitle')}{file.suffix}' # i have no fucking clue why but STFU PYRIGHT
+            tracknumber = str(tagger['tracknumber']).zfill(2)
+            tracktitle = str(tagger['tracktitle'])
+            newname = f'{tracknumber} {tracktitle}'
+            # i have no fucking clue why but STFU PYRIGHT
         else:
             nameelements = file.name.split(' - ')
             newname = nameelements[-1]
