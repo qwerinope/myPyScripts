@@ -2,7 +2,7 @@
 import zipfile, argparse, shutil, sys
 from pathlib import Path
 
-MUSICFILETYPES = ['.mp3', '.flac', '.ogg', '.aiff', '.wav', '.alac', '.aac']
+MUSICFILETYPES = ['.mp3', '.flac', '.ogg', '.aiff', '.m4a'] # for some reason, bandcamp doesn't include tagging data on .wav files...
 
 try: 
     import music_tag
