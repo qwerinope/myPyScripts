@@ -87,7 +87,7 @@ class mainWindow(QMainWindow):
         
         
     def opengithub(self):
-        QDesktopServices.openUrl(QUrl("https://github.com/qweri0p/myPyScripts/tree/main/noordhoffPDFCreator"))
+        QDesktopServices.openUrl(QUrl("https://github.com/qwerinope/myPyScripts/tree/main/noordhoffPDFCreator"))
 
     def open_file_dialog(self):
         response = QFileDialog.getSaveFileName(

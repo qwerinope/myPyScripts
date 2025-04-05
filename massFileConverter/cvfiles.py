@@ -2,7 +2,7 @@
 import subprocess, shutil, argparse
 from pathlib import Path
 
-parser = argparse.ArgumentParser(description='Convert all files with a certain extension to a different extension', epilog='https://github.com/qweri0p/myPyScripts')
+parser = argparse.ArgumentParser(description='Convert all files with a certain extension to a different extension', epilog='https://github.com/qwerinope/myPyScripts')
 parser.add_argument('-q', '--quiet', help="Do not write anything to stdout.", action='store_true', default=False)
 parser.add_argument('-c', '--clean', help="Remove input file when done converting.", action='store_true', default=False)
 parser.add_argument('-v', '--verbose', help="Print extra info about the file that's currently being converted.", action='store_true', default=False)

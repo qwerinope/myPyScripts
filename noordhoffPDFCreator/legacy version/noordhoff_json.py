@@ -1,7 +1,7 @@
 #!/bin/env python
 import requests, img2pdf, argparse, os, re, json, shutil
 
-parser = argparse.ArgumentParser(description='Download books from Noordhoff (JSON definition version)', epilog="https://github.com/qweri0p/myPyScripts")
+parser = argparse.ArgumentParser(description='Download books from Noordhoff (JSON definition version)', epilog="https://github.com/qwerinope/myPyScripts")
 parser.add_argument('-v', '--verbose', help="display individual images downloaded", action='store_true', default=False)
 args = parser.parse_args()
 

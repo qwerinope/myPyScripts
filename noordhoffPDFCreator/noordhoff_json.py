@@ -4,7 +4,7 @@ import json
 import argparse
 
 def doParser():
-    parser = argparse.ArgumentParser(description='Download books from Noordhoff (JSON definition version)', epilog="https://github.com/qweri0p/myPyScripts")
+    parser = argparse.ArgumentParser(description='Download books from Noordhoff (JSON definition version)', epilog="https://github.com/qwerinope/myPyScripts")
     parser.add_argument('-v', '--verbose', help="Return more info regarding program state", action='store_true', default=False)
     args = parser.parse_args()
     return args

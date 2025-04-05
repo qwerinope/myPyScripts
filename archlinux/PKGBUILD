@@ -1,9 +1,9 @@
 pkgname=qweriop-python-scripts
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc="Several, random, (maybe) useful cli scripts written in python"
 arch=('any')
-url="https://github.com/qweri0p/myPyScripts"
+url="https://github.com/qwerinope/myPyScripts"
 licence=('MIT')
 depends=('python')
 makedepends=(
@@ -15,7 +15,7 @@ optdepends=(
 	'python-pypdf: Required for "noordhoffdl"'
 	'python-requests: Required for "noordhoffdl"'
 )
-source=($pkgname::'git+https://github.com/qweri0p/myPyScripts')
+source=($pkgname::'git+https://github.com/qwerinope/myPyScripts')
 sha256sums=('SKIP')
 
 package() {

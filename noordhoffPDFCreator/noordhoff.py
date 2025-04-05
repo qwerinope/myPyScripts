@@ -43,7 +43,7 @@ PAGECHECKRANGE = 100
 UUIDPATTERN = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
 
 def doParser():
-    parser = argparse.ArgumentParser(description='Download books from Noordhoff as PDF', epilog='https://github.com/qweri0p/myPyScripts')
+    parser = argparse.ArgumentParser(description='Download books from Noordhoff as PDF', epilog='https://github.com/qwerinope/myPyScripts')
     parser.add_argument('-v', '--verbose', help='Display each request.', action='store_true', default=False)
     parser.add_argument('-o', '--output', help='Rename PDF after creation to specified name.', action='store', default='output')
     parser.add_argument('-k', '--keep', help='Keep partial PDF files.', action='store_true', default=False)

@@ -10,7 +10,7 @@ except ImportError:
     print("Please install the 'music-tag' python package. Check the README for more details.")
     exit(1)
 
-parser = argparse.ArgumentParser(description='Unzip zipfiles downloaded from Bandcamp.com into directories labelled by album.', epilog="https://github.com/qweri0p/myPyScripts")
+parser = argparse.ArgumentParser(description='Unzip zipfiles downloaded from Bandcamp.com into directories labelled by album.', epilog="https://github.com/qwerinope/myPyScripts")
 parser.add_argument('-v', '--verbose', help="Display individual items being extracted.", action='store_true', default=False)
 parser.add_argument('-q', '--quiet', help="Do not display any information at all.", action='store_true', default=False)
 parser.add_argument('-c', '--clean', help="Removes zipfile once completed", action='store_true', default=False)
