@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "qwerinope's python scripts";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
