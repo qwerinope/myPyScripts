@@ -8,7 +8,7 @@ try:
     import music_tag
 except ImportError:
     print("Please install the 'music-tag' python package. Check the README for more details.")
-    exit(1)
+    sys.exit(1)
 
 parser = argparse.ArgumentParser(description='Unzip zipfiles downloaded from Bandcamp.com into directories labelled by album.', epilog="https://github.com/qwerinope/myPyScripts")
 parser.add_argument('-v', '--verbose', help="Display individual items being extracted.", action='store_true', default=False)
@@ -33,7 +33,7 @@ else:
 
 if albums == []:
     print('No zipfiles found', file=sys.stderr)
-    exit(1)
+    sys.exit(1)
 
 # start actual process
 for i in albums:
@@ -42,7 +42,7 @@ for i in albums:
         zip_ref = zipfile.ZipFile(currentzip, "r")
     except zipfile.BadZipFile:
         print(f'ERROR: Zipfile \'{currentzip.name}\' is corrupt. Please redownload the music from bandcamp', file=sys.stderr)
-        exit(1)
+        sys.exit(1)
 
     if args.quiet == False:
         print(f'Extracting: \'{currentzip.name}\'')
@@ -79,7 +79,7 @@ for i in albums:
         print(f'ERROR: Cannot create directory \'{albumname}\' as directory already exists', file=sys.stderr)
         if args.keep == False:
             shutil.rmtree(tempdir)
-        exit(1)
+        sys.exit(1)
     else:
         finaldir.mkdir()
 
@@ -87,7 +87,7 @@ for i in albums:
         if file.suffix in MUSICFILETYPES:
             tagger = music_tag.load_file(file)
             tracknumber = str(tagger['tracknumber']).zfill(2)
-            tracktitle = str(tagger['tracktitle'])
+            tracktitle = str(tagger['tracktitle']).replace("/", "-")
             newname = f'{tracknumber} {tracktitle}{file.suffix}'
             # i have no fucking clue why but STFU PYRIGHT
         else:
